@@ -4,7 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import guru.springframework.rest.domain.Category;
+import guru.springframework.rest.domain.Customer;
 import guru.springframework.rest.repository.CategoryRepo;
+import guru.springframework.rest.repository.CustomerRepo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -12,13 +14,22 @@ import lombok.extern.slf4j.Slf4j;
 public class Bootstrap implements CommandLineRunner {
 
     private CategoryRepo categoryRepo;
+    private CustomerRepo customerRepo;
 
-    public Bootstrap(CategoryRepo categoryRepo) {
+    public Bootstrap(CategoryRepo categoryRepo, CustomerRepo customerRepo) {
         this.categoryRepo = categoryRepo;
+        this.customerRepo = customerRepo;
     }
 
     @Override
     public void run(String... args) throws Exception {
+        loadCategories();
+
+        loadCustomers();
+
+    }
+
+    private void loadCategories() {
         Category fruits = new Category();
         fruits.setName("Fruits");
 
@@ -40,8 +51,27 @@ public class Bootstrap implements CommandLineRunner {
         categoryRepo.save(exotic);
         categoryRepo.save(nuts);
 
-        log.error("Data Loaded = " + categoryRepo.count());
+        log.error("Categories Loaded = " + categoryRepo.count());
+    }
 
+    private void loadCustomers() {
+        Customer ayman = new Customer();
+        ayman.setFirstName("Ayman");
+        ayman.setLastName("Mohamed");
+
+        Customer mohamed = new Customer();
+        mohamed.setFirstName("Mohamed");
+        mohamed.setLastName("Mahmoud");
+
+        Customer khaled = new Customer();
+        khaled.setFirstName("Khaled");
+        khaled.setLastName("Ahmed");
+
+        customerRepo.save(ayman);
+        customerRepo.save(mohamed);
+        customerRepo.save(khaled);
+
+        log.error("Customer Loaded = " + customerRepo.count());
     }
 
 }
