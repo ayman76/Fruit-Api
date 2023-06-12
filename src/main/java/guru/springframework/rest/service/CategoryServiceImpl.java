@@ -3,10 +3,13 @@ package guru.springframework.rest.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import guru.springframework.rest.api.v1.mapper.CategoryMapper;
 import guru.springframework.rest.api.v1.model.CategoryDto;
 import guru.springframework.rest.repository.CategoryRepo;
 
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
