@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import guru.springframework.rest.api.v1.mapper.CustomerMapper;
 import guru.springframework.rest.api.v1.model.CustomerDto;
+import guru.springframework.rest.domain.Customer;
 import guru.springframework.rest.repository.CustomerRepo;
 
 @Service
@@ -26,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .map(customer -> {
                     CustomerDto customerDto = customerMapper.customerToCustomerDto(customer);
-                    customerDto.setCustomerUrl("/api/v1/customer/" + customer.getId());
+                    customerDto.setCustomerUrl("/api/v1/customers/" + customer.getId());
                     return customerDto;
                 })
                 .collect(Collectors.toList());
@@ -45,6 +46,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto getCustomerById(Long id) {
         return customerMapper.customerToCustomerDto(customerRepo.findById(id).get());
+    }
+
+    @Override
+    public CustomerDto createNewCustomer(CustomerDto customerDto) {
+        Customer customer = customerMapper.customerDtoToCustomer(customerDto);
+        Customer savedCustomer = customerRepo.save(customer);
+
+        CustomerDto returnDto = customerMapper.customerToCustomerDto(savedCustomer);
+        returnDto.setCustomerUrl("/api/v1/customers/" + savedCustomer.getId());
+
+        return returnDto;
     }
 
 }

@@ -1,6 +1,7 @@
 package guru.springframework.rest.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -108,5 +109,28 @@ public class CustomerServiceImplTest {
         assertEquals(Long.valueOf(ID), customerDto.getId());
         assertEquals(FIRSTNAME, customerDto.getFirstName());
         assertEquals(LASTNAME, customerDto.getLastName());
+    }
+
+    @Test
+    void testCreateNewCustomer() {
+        // given
+        
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setFirstName(FIRSTNAME);
+        customerDto.setLastName(LASTNAME);
+
+        Customer customer = new Customer();
+        customer.setFirstName(FIRSTNAME);
+        customer.setLastName(LASTNAME);
+        customer.setId(ID);
+
+        when(customerRepo.save(any())).thenReturn(customer);
+
+        //when
+        CustomerDto returnCustomer = customerService.createNewCustomer(customerDto);
+
+        assertEquals(customerDto.getFirstName(), returnCustomer.getFirstName());
+        assertEquals(customerDto.getLastName(), returnCustomer.getLastName());
+        assertEquals("/api/v1/customers/1", returnCustomer.getCustomerUrl());
     }
 }
