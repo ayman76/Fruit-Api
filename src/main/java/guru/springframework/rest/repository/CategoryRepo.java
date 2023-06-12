@@ -6,4 +6,5 @@ import guru.springframework.rest.domain.Category;
 
 public interface CategoryRepo extends JpaRepository<Category, Long> {
 
+    Category findByName(String name);
 }
