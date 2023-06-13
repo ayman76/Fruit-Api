@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import guru.springframework.rest.api.v1.model.CustomerDto;
 import guru.springframework.rest.service.CustomerService;
+import guru.springframework.rest.service.ResourceNotFoundException;
 
 public class CustomerControllerTest extends AbstractRestControllerTest {
 
@@ -44,7 +45,9 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test
@@ -188,5 +191,15 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         verify(customerService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void testGetCustomerByIdNotFound() throws Exception{
+
+        when(customerService.getCustomerById(anyLong())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customers/1")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }

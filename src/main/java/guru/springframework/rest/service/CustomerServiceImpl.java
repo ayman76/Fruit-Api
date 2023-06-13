@@ -92,7 +92,7 @@ public class CustomerServiceImpl implements CustomerService {
                     returnCustomer.setCustomerUrl("/api/v1/customers/" + returnCustomer.getId());
 
                     return returnCustomer;
-                }).orElseThrow(RuntimeException::new);
+                }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (foundedCustomer.isPresent()) {
             customerRepo.deleteById(id);
         } else {
-            throw new RuntimeException("Customer Not Found");
+            throw new ResourceNotFoundException("Customer Not Found");
         }
 
     }

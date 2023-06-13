@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import guru.springframework.rest.api.v1.mapper.CategoryMapper;
 import guru.springframework.rest.api.v1.model.CategoryDto;
+import guru.springframework.rest.domain.Category;
 import guru.springframework.rest.repository.CategoryRepo;
 
 @Service
@@ -30,7 +31,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategoryByName(String name) {
-        return categoryMapper.categoryToCategoryDTO(categoryRepo.findByName(name));
+        Category category = categoryRepo.findByName(name);
+        if (category != null) {
+            return categoryMapper.categoryToCategoryDTO(category);
+        } else {
+            throw new ResourceNotFoundException("Category Not Found");
+        }
+
     }
 
 }
