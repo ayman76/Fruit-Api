@@ -3,6 +3,8 @@ package guru.springframework.rest.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -156,7 +158,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
-    void testPatchCustomer() throws Exception{
+    void testPatchCustomer() throws Exception {
         // given
         CustomerDto customerDto = new CustomerDto();
         customerDto.setFirstName(FIRSTNAME);
@@ -177,5 +179,14 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", Matchers.equalTo(FIRSTNAME)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", Matchers.equalTo(LASTNAME)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerUrl", Matchers.equalTo("/api/v1/customers/1")));
+    }
+
+    @Test
+    void testDeleteCustomerById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/customers/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        verify(customerService, times(1)).deleteById(anyLong());
     }
 }

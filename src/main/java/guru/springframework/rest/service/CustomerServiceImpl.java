@@ -1,6 +1,7 @@
 package guru.springframework.rest.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -92,6 +93,17 @@ public class CustomerServiceImpl implements CustomerService {
 
                     return returnCustomer;
                 }).orElseThrow(RuntimeException::new);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Optional<Customer> foundedCustomer = customerRepo.findById(id);
+        if (foundedCustomer.isPresent()) {
+            customerRepo.deleteById(id);
+        } else {
+            throw new RuntimeException("Customer Not Found");
+        }
+
     }
 
 }
