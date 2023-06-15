@@ -5,8 +5,10 @@ import org.springframework.stereotype.Component;
 
 import guru.springframework.rest.domain.Category;
 import guru.springframework.rest.domain.Customer;
+import guru.springframework.rest.domain.Vendor;
 import guru.springframework.rest.repository.CategoryRepo;
 import guru.springframework.rest.repository.CustomerRepo;
+import guru.springframework.rest.repository.VendorRepo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -15,10 +17,12 @@ public class Bootstrap implements CommandLineRunner {
 
     private CategoryRepo categoryRepo;
     private CustomerRepo customerRepo;
+    private VendorRepo vendorRepo;
 
-    public Bootstrap(CategoryRepo categoryRepo, CustomerRepo customerRepo) {
+    public Bootstrap(CategoryRepo categoryRepo, CustomerRepo customerRepo, VendorRepo vendorRepo) {
         this.categoryRepo = categoryRepo;
         this.customerRepo = customerRepo;
+        this.vendorRepo = vendorRepo;
     }
 
     @Override
@@ -26,6 +30,8 @@ public class Bootstrap implements CommandLineRunner {
         loadCategories();
 
         loadCustomers();
+
+        loadVendors();
 
     }
 
@@ -72,6 +78,27 @@ public class Bootstrap implements CommandLineRunner {
         customerRepo.save(khaled);
 
         log.error("Customer Loaded = " + customerRepo.count());
+    }
+
+    private void loadVendors() {
+        Vendor vendor1 = new Vendor();
+        vendor1.setName("Home Fruits");
+
+        Vendor vendor2 = new Vendor();
+        vendor2.setName("Fun Fresh Fruits Ltd.");
+
+        Vendor vendor3 = new Vendor();
+        vendor3.setName("Nuts for Nuts Company");
+
+        Vendor vendor4 = new Vendor();
+        vendor4.setName("Exotic Fruits Company");
+
+        vendorRepo.save(vendor1);
+        vendorRepo.save(vendor2);
+        vendorRepo.save(vendor3);
+        vendorRepo.save(vendor4);
+
+        log.error("Vendor Loaded =" + vendorRepo.count());
     }
 
 }

@@ -17,6 +17,7 @@ import guru.springframework.rest.bootstrap.Bootstrap;
 import guru.springframework.rest.domain.Customer;
 import guru.springframework.rest.repository.CategoryRepo;
 import guru.springframework.rest.repository.CustomerRepo;
+import guru.springframework.rest.repository.VendorRepo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,13 +32,16 @@ public class CustomerServiceImplIT {
     @Autowired
     CategoryRepo categoryRepo;
 
+    @Autowired
+    VendorRepo vendorRepo;
+
     @BeforeEach
     void setUp() throws Exception {
         log.error("Loading Customer Data");
         log.error("" + customerRepo.findAll().size());
 
         // setup data for testing
-        Bootstrap bootstrap = new Bootstrap(categoryRepo, customerRepo);
+        Bootstrap bootstrap = new Bootstrap(categoryRepo, customerRepo, vendorRepo);
         bootstrap.run();
 
         customerService = new CustomerServiceImpl(customerRepo, CustomerMapper.INSTATNCE);
