@@ -5,11 +5,10 @@ import guru.springframework.rest.domain.Customer;
 import javax.annotation.Generated;
 import org.springframework.stereotype.Component;
 
-
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-15T15:35:42+0300",
-    comments = "version: 1.5.3.Final, compiler: Eclipse JDT (IDE) 3.34.0.v20230413-0857, environment: Java 17.0.7 (Eclipse Adoptium)"
+    date = "2023-06-21T19:54:19+0300",
+    comments = "version: 1.5.3.Final, compiler: Eclipse JDT (IDE) 3.34.0.v20230511-1142, environment: Java 17.0.7 (Eclipse Adoptium)"
 )
 @Component
 public class CustomerMapperImpl implements CustomerMapper {

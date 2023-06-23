@@ -6,7 +6,7 @@ import org.mapstruct.factory.Mappers;
 import guru.springframework.rest.api.v1.model.VendorDto;
 import guru.springframework.rest.domain.Vendor;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface VendorMapper {
 
     VendorMapper INSTANCE = Mappers.getMapper(VendorMapper.class);

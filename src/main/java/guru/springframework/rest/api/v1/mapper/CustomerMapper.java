@@ -6,7 +6,7 @@ import org.mapstruct.factory.Mappers;
 import guru.springframework.rest.api.v1.model.CustomerDto;
 import guru.springframework.rest.domain.Customer;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CustomerMapper {
     CustomerMapper INSTATNCE = Mappers.getMapper(CustomerMapper.class);
 

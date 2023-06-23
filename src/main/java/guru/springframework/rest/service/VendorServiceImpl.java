@@ -1,5 +1,6 @@
 package guru.springframework.rest.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import guru.springframework.rest.api.v1.mapper.VendorMapper;
+import guru.springframework.rest.api.v1.model.ProductDto;
 import guru.springframework.rest.api.v1.model.VendorDto;
 import guru.springframework.rest.domain.Vendor;
 import guru.springframework.rest.repository.VendorRepo;
@@ -51,6 +53,12 @@ public class VendorServiceImpl implements VendorService {
                         vendor -> {
                             VendorDto vendorDto = vendorMapper.vendorToVendorDto(vendor);
                             vendorDto.setVendorUrl("/api/v1/vendors/" + vendor.getId());
+                            List<ProductDto> productDtos = new ArrayList<>();
+
+                            vendorDto.setProducts(vendorDto.getProducts().stream().map(productDto -> {
+                                productDto.setProductUrl("/api/v1/product/" + productDto.getId());
+                                return productDto;
+                            }).collect(Collectors.toList()));
                             return vendorDto;
                         })
                 .collect(Collectors.toList());
